@@ -33,6 +33,7 @@ public class TurnManager : MonoBehaviour {
         }
         TurnPL.fillAmount = PTT / 8f;
         TurnCC.fillAmount = CTT / 8f;
+        //turnPL and TurnCC are canvas rendered images that are filled horozontaly
         }
     }
     public void TurnHandOff()
