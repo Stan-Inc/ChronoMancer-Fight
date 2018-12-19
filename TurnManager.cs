@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,22 +10,24 @@ public class TurnManager : MonoBehaviour {
     public Image TurnCC;
     public Image TurnPL;
     public bool CutScene;
+    public float DificultyCoef = 1;
+    //causes game speed to increase
     public void TurnSys()
     
     {
         if (!CutScene) {
-        if (PlayerTurn && PTT > 0)
+        if (PlayerTurn && PTT > 0 && !GetComponent<TRManager>().TRBool)
         {
-            PTT -= t;
+            PTT -= DificultyCoef*t;
             Debug.Log("MY TURN");
             
         }
         else if (!PlayerTurn && CTT >0)
         {
-            CTT -= t;
+            CTT -= DificultyCoef*t;
             Debug.Log("CTURN");
         }
-        else
+        else if (!GetComponent<TRManager>().TRBool)
         {
             Debug.Log("Turn Over!");
             TurnHandOff();
@@ -33,7 +35,6 @@ public class TurnManager : MonoBehaviour {
         }
         TurnPL.fillAmount = PTT / 8f;
         TurnCC.fillAmount = CTT / 8f;
-        //turnPL and TurnCC are canvas rendered images that are filled horozontaly
         }
     }
     public void TurnHandOff()
@@ -50,6 +51,14 @@ public class TurnManager : MonoBehaviour {
             //Insert Cutscene animation Here (reminder set CScene to True then to false)
             PTT = 8;
             CTT = 0;
+            if (!GetComponent<TRManager>().TRused)
+            {
+                GetComponent<TRManager>().TR += 2;
+            }
+            else
+            {
+                GetComponent<TRManager>().TRused = false;
+            }
         }
     }
 }
